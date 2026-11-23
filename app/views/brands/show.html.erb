@@ -1,0 +1,17 @@
+<% content_for :page_title, "Brand: #{@brand.name}" %>
+
+<div class="mb-6">
+  <nav class="mb-2 text-sm">
+    <%= link_to "Brands", brands_path, class: "text-red-700 hover:underline" %>
+    <span class="px-1 text-slate-400">/</span>
+    <span class="text-slate-600"><%= @brand.name %></span>
+  </nav>
+
+  <h2 class="text-2xl font-bold text-slate-900">
+    Invoice Brand: <%= @brand.name %>
+    <span class="text-lg font-normal text-slate-400">(<%= @invoices.total_entries %>)</span>
+  </h2>
+  <p class="mt-1 text-sm text-slate-500">Daftar invoice untuk brand ini.</p>
+</div>
+
+<%= render "invoices/invoices_table", invoices: @invoices %>

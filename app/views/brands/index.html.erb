@@ -1,0 +1,27 @@
+<% content_for :page_title, "Brands" %>
+
+<div class="mb-6">
+  <h2 class="text-2xl font-bold text-slate-900">Brands</h2>
+  <p class="mt-1 text-sm text-slate-500">Daftar brand dan jumlah invoice yang tercatat.</p>
+</div>
+
+<div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+  <table class="min-w-full divide-y divide-slate-200 text-sm">
+    <thead class="bg-slate-50 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+      <tr>
+        <th class="px-5 py-3">Nama Brand</th>
+        <th class="px-5 py-3 text-right">Jumlah Invoice</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+      <% @brands.each do |brand| %>
+        <tr class="hover:bg-slate-50">
+          <td class="px-5 py-3 font-medium">
+            <%= link_to brand.name, brand_path(brand), class: "text-red-700 hover:underline" %>
+          </td>
+          <td class="px-5 py-3 text-right text-slate-600"><%= brand.invoices.count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

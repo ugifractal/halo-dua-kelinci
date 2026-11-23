@@ -1,0 +1,37 @@
+<% content_for :page_title, "Invoices" %>
+
+<div class="mb-6">
+  <h2 class="text-2xl font-bold text-slate-900">
+    Daftar Invoice <span class="text-lg font-normal text-slate-400">(<%= @invoices.total_entries %>)</span>
+  </h2>
+  <p class="mt-1 text-sm text-slate-500">Filter daftar invoice berdasarkan region dan brand.</p>
+</div>
+
+<%= form_with url: invoices_path, method: :get,
+      data: { controller: "filter" },
+      class: "mb-6 grid gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:grid-cols-2" do |f| %>
+  <div>
+    <%= f.label :region_id, "Region", class: "mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-500" %>
+    <%= f.select :region_id,
+          options_from_collection_for_select(@regions, :id, :name, params[:region_id]),
+          { include_blank: "Semua Region" },
+          class: "w-full rounded-lg border-slate-300 text-sm shadow-sm focus:border-red-500 focus:ring-red-500",
+          data: { action: "change->filter#submit" } %>
+  </div>
+
+  <div>
+    <%= f.label :brand_id, "Brand", class: "mb-1.5 block text-xs font-medium uppercase tracking-wide text-slate-500" %>
+    <%= f.select :brand_id,
+          options_from_collection_for_select(@brands, :id, :name, params[:brand_id]),
+          { include_blank: "Semua Brand" },
+          class: "w-full rounded-lg border-slate-300 text-sm shadow-sm focus:border-red-500 focus:ring-red-500",
+          data: { action: "change->filter#submit" } %>
+  </div>
+
+  <div class="flex items-end justify-end sm:col-span-2">
+    <%= link_to "Reset", invoices_path,
+          class: "rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50" %>
+  </div>
+<% end %>
+
+<%= render "invoices/invoices_table", invoices: @invoices %>

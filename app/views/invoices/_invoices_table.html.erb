@@ -1,0 +1,55 @@
+<%
+  first_row = (invoices.current_page - 1) * invoices.per_page + 1
+  last_row = [ first_row + invoices.length - 1, invoices.total_entries ].min
+%>
+
+<div class="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+  <span>
+    <% if invoices.total_entries.zero? %>
+      Tidak ada invoice.
+    <% else %>
+      Menampilkan <%= first_row %>–<%= last_row %> dari <%= invoices.total_entries %> invoice
+    <% end %>
+  </span>
+  <span>Halaman <%= invoices.current_page %> dari <%= invoices.total_pages %></span>
+</div>
+
+<div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+      <thead class="bg-slate-50 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+        <tr>
+          <th class="whitespace-nowrap px-5 py-3">Tanggal</th>
+          <th class="whitespace-nowrap px-5 py-3">No. Invoice</th>
+          <th class="whitespace-nowrap px-5 py-3">Region</th>
+          <th class="whitespace-nowrap px-5 py-3">Brand</th>
+          <th class="whitespace-nowrap px-5 py-3">Outlet</th>
+          <th class="whitespace-nowrap px-5 py-3">SKU</th>
+          <th class="whitespace-nowrap px-5 py-3 text-right">Qty</th>
+          <th class="whitespace-nowrap px-5 py-3 text-right">Net Sales</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-slate-100">
+        <% invoices.each do |invoice| %>
+          <tr class="hover:bg-slate-50">
+            <td class="whitespace-nowrap px-5 py-3 text-slate-600"><%= invoice.date.strftime("%d %b %Y") %></td>
+            <td class="whitespace-nowrap px-5 py-3 font-medium text-slate-900"><%= invoice.invoice_no %></td>
+            <td class="whitespace-nowrap px-5 py-3"><%= invoice.region.name %></td>
+            <td class="whitespace-nowrap px-5 py-3"><%= invoice.brand.name %></td>
+            <td class="whitespace-nowrap px-5 py-3"><%= invoice.outlet_name %></td>
+            <td class="whitespace-nowrap px-5 py-3"><%= invoice.sku %></td>
+            <td class="whitespace-nowrap px-5 py-3 text-right"><%= invoice.qty_carton %></td>
+            <td class="whitespace-nowrap px-5 py-3 text-right font-medium text-red-700">
+              <%= number_to_currency(invoice.net_sales_idr, unit: "Rp ", delimiter: ".", precision: 0) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="mt-5 flex justify-center">
+  <%= will_paginate invoices %>
+</div>

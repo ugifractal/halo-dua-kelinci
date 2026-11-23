@@ -1,0 +1,36 @@
+<aside data-sidebar-target="sidebar"
+       class="fixed inset-y-0 left-0 z-40 flex w-64 -translate-x-full flex-col bg-red-700 text-white shadow-xl transition-transform duration-200 lg:translate-x-0">
+  <div class="flex h-16 items-center justify-between border-b border-red-800 px-5">
+    <div class="flex items-center gap-3">
+      <%= image_tag "duakelinci_logo.jpeg", alt: "Logo Dua Kelinci", class: "h-9 w-9 rounded bg-white object-contain p-1" %>
+
+      <span class="text-sm font-semibold leading-tight text-white">
+        DUA KELINCI
+        <small class="block text-xs font-normal text-red-100">Admin Panel</small>
+      </span>
+    </div>
+
+    <button type="button" data-action="click->sidebar#close"
+            class="rounded p-1 text-red-100 hover:bg-red-600 lg:hidden" aria-label="Tutup menu">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <nav class="flex-1 space-y-1 p-4">
+    <% [
+      { label: "Dashboard", path: root_path, key: "dashboard" },
+      { label: "Invoices", path: invoices_path, key: "invoices" },
+      { label: "Regions", path: regions_path, key: "regions" },
+      { label: "Brands", path: brands_path, key: "brands" }
+    ].each do |item| %>
+      <% active = controller_name == item[:key] %>
+      <%= link_to item[:path],
+            class: "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition #{active ? "bg-white text-red-700 shadow-sm" : "text-red-50 hover:bg-red-600"}" do %>
+        <span class="h-2 w-2 rounded-full <%= active ? "bg-red-700" : "bg-red-300" %>"></span>
+        <%= item[:label] %>
+      <% end %>
+    <% end %>
+  </nav>
+</aside>
